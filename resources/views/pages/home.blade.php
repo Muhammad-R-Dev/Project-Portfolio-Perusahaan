@@ -1,131 +1,195 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda')
-
 @push('styles')
 <style>
-    .hero {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        position: relative;
-        padding: 120px 0 60px;
-        overflow: hidden;
-    }
-    .hero-content {
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        z-index: 10;
-    }
-    .services-grid {
+    .hero-section {
+        background: var(--bg-blue-light);
+        border-radius: var(--radius-xl);
+        margin: 1rem 2rem 4rem;
+        padding: 4rem;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-    .service-card {
-        text-align: left;
-    }
-    .service-icon {
-        width: 60px;
-        height: 60px;
-        background: rgba(79, 70, 229, 0.1);
-        border-radius: 16px;
-        display: flex;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
         align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        color: var(--primary-light);
-        margin-bottom: 1.5rem;
+        color: white;
     }
-    .stats-section {
-        background: var(--dark-2);
-        padding: 5rem 0;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
+    .hero-section .section-title { color: white; }
+    .hero-section p { font-size: 1.15rem; margin-bottom: 2.5rem; opacity: 0.9; max-width: 450px; }
+    .hero-img {
+        width: 100%; height: 600px; object-fit: cover;
+        border-radius: var(--radius-lg);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        text-align: center;
+    
+    .about-stats {
+        padding: 5rem 2rem;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
     }
-    .stat-val {
-        font-size: 3rem;
-        font-weight: 800;
-        background: var(--gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .stat-item h3 { font-size: 3.5rem; font-weight: 800; color: var(--text-main); line-height: 1; margin-bottom: 0.5rem; }
+    .stat-item p { color: var(--text-muted); font-size: 1rem; font-weight: 500; }
+
+    .catalog-section { padding: 5rem 2rem; }
+    .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .catalog-card {
+        background: white; border-radius: var(--radius-lg); overflow: hidden;
+        border: 1px solid var(--border); padding: 1rem; padding-bottom: 2rem;
     }
-    .stat-label {
-        color: var(--text-muted);
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-top: 0.5rem;
+    .catalog-card img {
+        width: 100%; height: 280px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 1.5rem;
+    }
+    .catalog-card h4 { font-size: 1.25rem; margin-bottom: 0.5rem; padding: 0 1rem; }
+    .catalog-card p { color: var(--text-muted); font-size: 0.95rem; padding: 0 1rem; }
+    
+    .process-section { padding: 6rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
+    .process-sidebar { position: sticky; top: 120px; }
+    .cta-consult {
+        background: var(--bg-blue-light); padding: 3rem; border-radius: var(--radius-lg);
+        color: white; text-align: center; margin-top: 3rem;
+    }
+    .cta-consult h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+    .process-item { display: flex; gap: 1.5rem; margin-bottom: 3rem; }
+    .process-icon {
+        width: 56px; height: 56px; border-radius: 50%; background: var(--text-main);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.2rem; color: white; flex-shrink: 0;
+    }
+    .process-item h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .process-item p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+    
+    .cta-block {
+        background: var(--bg-dark-slate); color: white;
+        border-radius: var(--radius-xl); padding: 5rem 4rem; margin: 2rem;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .cta-block .section-title { color: white; font-size: 2.8rem; }
+    .form-input {
+        width: 100%; padding: 1.2rem 1.5rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
+        background: transparent; color: white; margin-bottom: 1rem; outline: none; font-family: inherit;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.6); }
+
+    @media(max-width: 992px) {
+        .hero-section, .about-stats, .process-section, .cta-block { grid-template-columns: 1fr; padding: 3rem; margin: 1rem; }
+        .hero-img { height: 400px; }
+        .catalog-grid { grid-template-columns: 1fr; }
     }
 </style>
 @endpush
 
 @section('content')
-<!-- HERO SECTION -->
-<section class="hero">
-    <div class="glow-blob" style="top: 20%; left: 10%; width: 500px; height: 500px; background: var(--primary);"></div>
-    <div class="glow-blob" style="bottom: -10%; right: 10%; width: 400px; height: 400px; background: var(--secondary);"></div>
-    
-    <div class="container">
-        <div class="hero-content">
-            <span class="section-badge" data-aos="fade-down">Innovating The Future</span>
-            <h1 class="section-title" data-aos="fade-up" data-aos-delay="100">
-                Solusi Teknologi Terdepan untuk <span class="gradient-text">Transformasi Digital</span> Bisnis Anda
-            </h1>
-            <p class="section-subtitle mx-auto" style="margin: 1.5rem auto 2.5rem;" data-aos="fade-up" data-aos-delay="200">
-                PT Asta Brata Teknologi menghadirkan layanan IT komprehensif, dari pengembangan perangkat lunak hingga infrastruktur cloud, dirancang khusus untuk memacu efisiensi dan pertumbuhan perusahaan.
-            </p>
-            <div data-aos="fade-up" data-aos-delay="300" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="{{ route('contact') }}" class="btn btn-primary">Mulai Konsultasi Gratis</a>
-                <a href="#services" class="btn btn-outline">Pelajari Layanan Kami</a>
+<div class="container" style="max-width: 1400px; padding: 0;">
+    <!-- HERO -->
+    <div class="hero-section" data-aos="fade-up">
+        <div>
+            <h1 class="section-title">Teknologi<br>Untuk Bisnis</h1>
+            <p>Pengembangan perangkat lunak kelas enterprise, integrasi sistem, dan infrastruktur cloud mutakhir.</p>
+            <a href="{{ route('contact') }}" class="btn btn-white">Mulai Kolaborasi</a>
+        </div>
+        <div>
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Corporate Building" class="hero-img">
+        </div>
+    </div>
+
+    <!-- ABOUT & STATS -->
+    <div class="container about-stats">
+        <div data-aos="fade-right">
+            <h2 class="section-title">Tentang Kami</h2>
+            <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 480px;">Kami adalah pakar teknologi yang membantu bisnis Anda menemukan solusi yang tepat. Kami menyediakan layanan lengkap mulai dari desain arsitektur hingga pengembangan software untuk memacu efisiensi perusahaan Anda.</p>
+        </div>
+        <div class="stats-grid" data-aos="fade-left">
+            @foreach($stats as $stat)
+            <div class="stat-item">
+                <h3>{{ $stat['value'] }}</h3>
+                <p>{{ $stat['label'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- SERVICES CATALOG -->
+    <div class="container catalog-section">
+        <h2 class="section-title" data-aos="fade-up">Katalog Layanan</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 3rem;" data-aos="fade-up">Solusi teknologi end-to-end untuk kebutuhan industri modern.</p>
+        
+        <div class="catalog-grid">
+            <div class="catalog-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80" alt="Software">
+                <h4>Pengembangan Software</h4>
+                <p>Aplikasi web & enterprise</p>
+            </div>
+            <div class="catalog-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Cloud">
+                <h4>Infrastruktur Cloud</h4>
+                <p>Migrasi & manajemen server</p>
+            </div>
+            <div class="catalog-card" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80" alt="Security">
+                <h4>Keamanan Siber</h4>
+                <p>Proteksi data 24/7</p>
             </div>
         </div>
     </div>
-</section>
 
-<!-- SERVICES SECTION -->
-<section id="services" style="padding: 6rem 0;">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <span class="section-badge" data-aos="fade-up">Keahlian Kami</span>
-            <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Layanan Unggulan</h2>
-            <p class="section-subtitle mx-auto" data-aos="fade-up" data-aos-delay="200">Kami menyediakan ekosistem solusi digital end-to-end yang disesuaikan dengan kebutuhan industri modern.</p>
+    <!-- PROCESS -->
+    <div class="container process-section">
+        <div class="process-sidebar" data-aos="fade-right">
+            <h2 class="section-title">Cara Kami<br>Bekerja</h2>
+            <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 400px;">Kami membuat proses kerja menjadi sangat transparan, sistematis, dan terukur bagi setiap klien kami.</p>
+            <div class="cta-consult">
+                <h3>Konsultasi Gratis</h3>
+                <a href="{{ route('contact') }}" class="btn btn-white" style="width: 100%;">Jadwalkan Sekarang</a>
+            </div>
         </div>
-
-        <div class="services-grid">
-            @foreach($services as $index => $service)
-            <div class="card service-card" data-aos="fade-up" data-aos-delay="{{ 100 * ($index + 1) }}">
-                <div class="service-icon">
-                    <i class="{{ $service['icon'] }}"></i>
+        <div data-aos="fade-left">
+            <div class="process-item">
+                <div class="process-icon"><i class="fas fa-comments"></i></div>
+                <div>
+                    <h4>1. Konsultasi Kebutuhan</h4>
+                    <p>Kami menganalisis tantangan bisnis Anda dan menentukan spesifikasi teknis yang paling relevan untuk diimplementasikan.</p>
                 </div>
-                <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">{{ $service['title'] }}</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">{{ $service['desc'] }}</p>
             </div>
-            @endforeach
+            <div class="process-item">
+                <div class="process-icon"><i class="fas fa-search"></i></div>
+                <div>
+                    <h4>2. Perancangan Sistem</h4>
+                    <p>Merancang arsitektur aplikasi dan UI/UX yang optimal untuk memberikan pengalaman pengguna terbaik.</p>
+                </div>
+            </div>
+            <div class="process-item">
+                <div class="process-icon"><i class="fas fa-code"></i></div>
+                <div>
+                    <h4>3. Proses Pengembangan</h4>
+                    <p>Tim ahli kami menulis kode menggunakan standar industri terbaik dengan pengujian ketat di setiap tahapnya.</p>
+                </div>
+            </div>
+            <div class="process-item">
+                <div class="process-icon"><i class="fas fa-rocket"></i></div>
+                <div>
+                    <h4>4. Peluncuran & Pendampingan</h4>
+                    <p>Kami mendampingi proses go-live produk dan memberikan jaminan dukungan teknis secara berkelanjutan.</p>
+                </div>
+            </div>
         </div>
     </div>
-</section>
 
-<!-- STATS SECTION -->
-<section class="stats-section">
-    <div class="container">
-        <div class="stats-grid">
-            @foreach($stats as $index => $stat)
-            <div data-aos="zoom-in" data-aos-delay="{{ 100 * $index }}">
-                <div class="stat-val counter" data-target="{{ intval($stat['value']) }}" data-suffix="{{ str_replace(intval($stat['value']), '', $stat['value']) }}">0</div>
-                <div class="stat-label">{{ $stat['label'] }}</div>
-            </div>
-            @endforeach
+    <!-- CTA -->
+    <div class="cta-block" data-aos="zoom-in">
+        <div>
+            <h2 class="section-title">Mari Berdiskusi Proyek!</h2>
+            <p style="opacity: 0.9; font-size: 1.1rem; max-width: 400px;">Tinggalkan kontak Anda dan tim ahli kami akan segera menghubungi Anda untuk sesi konsultasi.</p>
+        </div>
+        <div>
+            <form action="{{ route('contact.send') }}" method="POST">
+                @csrf
+                <input type="text" name="name" class="form-input" placeholder="Nama Lengkap Anda" required>
+                <input type="text" name="phone" class="form-input" placeholder="Nomor Telepon">
+                <button type="submit" class="btn btn-white" style="width: 100%; padding: 1.2rem; border-radius: 50px; font-size: 1.1rem; margin-top: 1rem;">Kirim Permintaan</button>
+                <input type="hidden" name="email" value="guest@example.com">
+                <input type="hidden" name="subject" value="Inquiry Permintaan">
+                <input type="hidden" name="message" value="Tolong hubungi saya segera.">
+            </form>
         </div>
     </div>
-</section>
+</div>
 @endsection

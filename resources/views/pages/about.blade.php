@@ -1,153 +1,113 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang Kami')
-
 @push('styles')
 <style>
-    .about-hero {
-        padding: 150px 0 80px;
+    .page-hero {
+        background: var(--bg-surface);
+        padding: 5rem 2rem;
+        border-radius: var(--radius-xl);
         text-align: center;
-        background: linear-gradient(to bottom, rgba(15,15,26,0), rgba(26,26,46,1));
+        margin: 1rem 2rem 4rem;
+        border: 1px solid var(--border);
     }
-    .values-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
+    .about-content {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-bottom: 6rem; padding: 0 2rem;
+        align-items: center;
+    }
+    .about-img {
+        width: 100%; height: 500px; object-fit: cover; border-radius: var(--radius-lg);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.05);
     }
     .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding: 0 2rem;
     }
     .team-card {
-        text-align: center;
-        padding: 2.5rem 1.5rem;
+        background: white; padding: 2.5rem 2rem; border-radius: var(--radius-lg);
+        text-align: center; border: 1px solid var(--border);
     }
+    .team-card h4 { font-size: 1.25rem; margin-bottom: 0.25rem; }
     .team-avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin: 0 auto 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: white;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2.5rem; font-weight: 800; color: white;
     }
-    .milestone-item {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 2rem;
-        position: relative;
+    
+    .timeline-section {
+        background: var(--bg-dark-slate); color: white; padding: 6rem 2rem;
+        border-radius: var(--radius-xl); margin: 6rem 2rem 2rem;
     }
-    .milestone-item::before {
-        content: '';
-        position: absolute;
-        left: 30px;
-        top: 40px;
-        bottom: -20px;
-        width: 2px;
-        background: var(--border);
+    .timeline-section .section-title { color: white; text-align: center; margin-bottom: 4rem; }
+    .timeline-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem;
     }
-    .milestone-item:last-child::before { display: none; }
-    .milestone-year {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: var(--gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        color: white;
-        z-index: 1;
-        flex-shrink: 0;
-    }
-    .milestone-content {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 1.5rem;
-        border-radius: 12px;
-        flex-grow: 1;
-    }
-    @media (max-width: 768px) {
-        .milestone-item { flex-direction: column; gap: 1rem; }
-        .milestone-item::before { left: 30px; }
+    .timeline-item h3 { font-size: 3rem; color: var(--bg-blue-light); margin-bottom: 1rem; }
+    .timeline-item h4 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .timeline-item p { opacity: 0.8; font-size: 0.95rem; }
+
+    @media(max-width: 992px) {
+        .about-content { grid-template-columns: 1fr; padding: 0; }
+        .team-grid { grid-template-columns: 1fr 1fr; padding: 0; }
+        .page-hero, .timeline-section { margin: 1rem; padding: 3rem 1.5rem; }
+        .about-img { height: 350px; }
     }
 </style>
 @endpush
 
 @section('content')
-<section class="about-hero">
-    <div class="container">
-        <span class="section-badge" data-aos="fade-down">Profil Perusahaan</span>
-        <h1 class="section-title" data-aos="fade-up" data-aos-delay="100">
-            Membangun Masa Depan Melalui <span class="gradient-text">Inovasi Teknologi</span>
-        </h1>
-        <p class="section-subtitle mx-auto" data-aos="fade-up" data-aos-delay="200" style="max-width: 700px;">
-            PT Asta Brata Teknologi didirikan dengan visi untuk menjadi katalisator transformasi digital bagi perusahaan di Indonesia. Kami percaya bahwa teknologi bukan hanya sekadar alat, melainkan fondasi utama untuk pertumbuhan bisnis yang berkelanjutan.
-        </p>
+<div class="container" style="max-width: 1400px; padding: 0;">
+    <div class="page-hero" data-aos="fade-down">
+        <h1 class="section-title" style="margin-bottom: 1rem;">Mengenal Lebih Dekat</h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Kami berdedikasi membangun infrastruktur teknologi masa depan yang kuat dan efisien.</p>
     </div>
-</section>
 
-<!-- Values Section -->
-<section style="padding: 5rem 0;">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h2 class="section-title" data-aos="fade-up">Nilai-Nilai Inti Kami</h2>
+    <div class="container about-content">
+        <div data-aos="fade-right">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="about-img" alt="Tim Kami">
         </div>
-        <div class="values-grid">
-            @foreach($values as $index => $val)
-            <div class="card" data-aos="fade-up" data-aos-delay="{{ 100 * $index }}">
-                <i class="{{ $val['icon'] }}" style="font-size: 2rem; color: var(--primary-light); margin-bottom: 1rem;"></i>
-                <h3 style="margin-bottom: 0.75rem;">{{ $val['title'] }}</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">{{ $val['desc'] }}</p>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-<!-- Team Section -->
-<section style="padding: 5rem 0; background: var(--dark-2);">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h2 class="section-title" data-aos="fade-up">Pemimpin Eksekutif</h2>
-            <p class="section-subtitle mx-auto" data-aos="fade-up">Bertemu dengan para ahli di balik kesuksesan solusi teknologi kami.</p>
-        </div>
-        <div class="team-grid">
-            @foreach($team as $index => $member)
-            <div class="card team-card" data-aos="fade-up" data-aos-delay="{{ 100 * $index }}">
-                <div class="team-avatar" style="background: {{ $member['color'] }};">{{ $member['initials'] }}</div>
-                <h3 style="margin-bottom: 0.25rem;">{{ $member['name'] }}</h3>
-                <div style="color: var(--primary-light); font-weight: 600; font-size: 0.9rem; margin-bottom: 1rem;">{{ $member['position'] }}</div>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">{{ $member['desc'] }}</p>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-<!-- History Section -->
-<section style="padding: 5rem 0;">
-    <div class="container" style="max-width: 800px;">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 class="section-title" data-aos="fade-up">Perjalanan Kami</h2>
-        </div>
-        
-        <div class="milestones">
-            @foreach($milestones as $index => $ms)
-            <div class="milestone-item" data-aos="fade-up" data-aos-delay="{{ 50 * $index }}">
-                <div class="milestone-year">{{ $ms['year'] }}</div>
-                <div class="milestone-content">
-                    <h3 style="margin-bottom: 0.5rem;">{{ $ms['title'] }}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">{{ $ms['desc'] }}</p>
+        <div data-aos="fade-left">
+            <h2 class="section-title">Visi & Misi Perusahaan</h2>
+            <p style="color: var(--text-muted); font-size: 1.15rem; margin-bottom: 2rem;">PT Asta Brata Teknologi hadir sebagai mitra terpercaya bagi perusahaan dalam melakukan transformasi digital. Tim kami terdiri dari para ahli industri yang berpengalaman.</p>
+            <div style="display: grid; gap: 1.5rem;">
+                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <i class="fas fa-check-circle" style="color: var(--primary); font-size: 1.5rem; margin-top: 0.2rem;"></i>
+                    <div>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Integritas & Kualitas Tinggi</h4>
+                        <p style="color: var(--text-muted);">Kami selalu menjamin penulisan kode yang bersih dan aman.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <i class="fas fa-check-circle" style="color: var(--primary); font-size: 1.5rem; margin-top: 0.2rem;"></i>
+                    <div>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Orientasi Pada Bisnis</h4>
+                        <p style="color: var(--text-muted);">Solusi dirancang untuk meningkatkan keuntungan operasional.</p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <h2 class="section-title" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">Tim Kepemimpinan</h2>
+    <div class="team-grid">
+        @foreach($team as $member)
+        <div class="team-card" data-aos="fade-up">
+            <div class="team-avatar" style="background: {{ $member['color'] }};">{{ $member['initials'] }}</div>
+            <h4>{{ $member['name'] }}</h4>
+            <p style="color: var(--primary); font-size: 1rem; font-weight: 600;">{{ $member['position'] }}</p>
+        </div>
+        @endforeach
+    </div>
+
+    <div class="timeline-section" data-aos="fade-up">
+        <h2 class="section-title">Tonggak Sejarah Kami</h2>
+        <div class="timeline-grid">
+            @foreach($milestones as $ms)
+            <div class="timeline-item">
+                <h3>{{ $ms['year'] }}</h3>
+                <h4>{{ $ms['title'] }}</h4>
+                <p>{{ $ms['desc'] }}</p>
+            </div>
             @endforeach
         </div>
     </div>
-</section>
+</div>
 @endsection
